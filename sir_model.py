@@ -1,3 +1,5 @@
+import numpy as np
+
 
 ### FUNCTIONS LIVE UP HERE ###
 def get_initial_susceptible(total_population, initial_infected, initial_recovered):
@@ -49,8 +51,6 @@ if __name__ == "__main__":
     proba_of_disease_transm = 0.04 # of acquiring the disease AND encountering a person with the disease
 
 
-
-
     ### THIS IS OUR PROCEDURE ###
     # simply the total population minus the initial infected and initial recovered
     initial_susceptible = get_initial_susceptible(total_population, initial_infected, initial_recovered)
@@ -64,10 +64,12 @@ if __name__ == "__main__":
     mean_recov_rate = get_mean_recov_rate(recovery_period_in_days)
 
 
+    # each derivative is a funct of time, so we set up a numpy array for time that we'll use in calc's and plotting
+    time_grid = np.linspace(0, days, days)
 
 
 
 
 
     ### DISPLAY FIELDS ###
-    print(f'total_population:{total_population}\n, days: {days}\n, initial_infected: {initial_infected}\n, initial_recovered: {initial_recovered}\n, recovery_period_in_days: {recovery_period_in_days}\n, avg_num_contacts_per_person: {avg_num_contacts_per_person}\n, avg_num_contacts_per_person: {avg_num_contacts_per_person}\n, proba_of_disease_transm: {proba_of_disease_transm}\n, initial_susceptible: {initial_susceptible}\n, beta: {beta}\n')
+    print(f', total_population:{total_population}\n, days: {days}\n, initial_infected: {initial_infected}\n, initial_recovered: {initial_recovered}\n, recovery_period_in_days: {recovery_period_in_days}\n, avg_num_contacts_per_person: {avg_num_contacts_per_person}\n, proba_of_disease_transm: {proba_of_disease_transm}\n, initial_susceptible: {initial_susceptible}\n, beta: {beta}\n, mean_recov_rate: {mean_recov_rate}\n, time_grid: {time_grid.shape}')
