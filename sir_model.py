@@ -36,6 +36,13 @@ def deriv_susceptible_wrt_time(beta, susceptible, infectious, total_population):
     return -beta * susceptible * (infectious / total_population)
 
 
+def deriv_infectious_wrt_time(beta, susceptible, infectious, total_population, mean_recov_rate):
+    '''
+    simply, infectious draws from susceptible, and is depleted by recovery
+    '''
+    return beta * susceptible * (infectious / total_population) - (mean_recov_rate * infectious)
+
+
 def derivatives_helper(initial_conditions, time_grid, total_population, beta, mean_recov_rate):
     '''
     facilitates the odeint solver from scipy
@@ -47,6 +54,8 @@ def derivatives_helper(initial_conditions, time_grid, total_population, beta, me
     susceptible, infectious, _ = initial_conditions
 
     dSdt = deriv_susceptible_wrt_time(beta, susceptible, infectious, total_population)
+
+    dIdt = deriv_infectious_wrt_time(beta, susceptible, infectious, total_population, mean_recov_rate)
 
 
 
