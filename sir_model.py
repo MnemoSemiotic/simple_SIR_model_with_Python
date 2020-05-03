@@ -1,7 +1,11 @@
 import numpy as np
-
+from scipy.integrate import odeint
 
 ### FUNCTIONS LIVE UP HERE ###
+
+def plot_sir()
+
+
 def get_initial_susceptible(total_population, initial_infected, initial_recovered):
     '''
     Everyone not initially_infected is naively
@@ -66,6 +70,8 @@ def derivatives_helper(initial_conditions, time_grid, total_population, beta, me
     dIdt = deriv_infectious_wrt_time(beta, susceptible, infectious, total_population, mean_recov_rate)
     dRdt = deriv_recovered_wrt_time(mean_recov_rate, infectious)
 
+    return dSdt, dIdt, dRdt
+
 
 if __name__ == "__main__":
     ### THESE ARE OUR PARAMETERS ###
@@ -109,9 +115,15 @@ if __name__ == "__main__":
     # Set initial conditions for our diffEQ solver
     initial_conditions = (initial_susceptible, initial_infected, initial_recovered)
 
-    # TODO: use ode solver to integrate the SIR equations
+    # Integrate the SIR equations over the time grid (in days)
+    integrate_functions = odeint(derivatives_helper, initial_conditions, time_grid, args=(total_population, beta, mean_recov_rate))
 
-
+    # unpack the values iot pass them into a plotting function
+    susceptible, infectious, recovered = integrate_functions.T
+    
+    plot_sir(time_grid, susceptible, infectious, recovered)
 
     ### DISPLAY FIELDS ###
     print(f', total_population:{total_population}\n, days: {days}\n, initial_infected: {initial_infected}\n, initial_recovered: {initial_recovered}\n, recovery_period_in_days: {recovery_period_in_days}\n, avg_num_contacts_per_person: {avg_num_contacts_per_person}\n, proba_of_disease_transm: {proba_of_disease_transm}\n, initial_susceptible: {initial_susceptible}\n, beta: {beta}\n, mean_recov_rate: {mean_recov_rate}\n, time_grid: {time_grid.shape}')
+
+    print(integrate_functions)
