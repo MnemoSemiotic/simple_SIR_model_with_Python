@@ -1,9 +1,33 @@
 import numpy as np
 from scipy.integrate import odeint
+import matplotlib.pyplot as plt
 
 ### FUNCTIONS LIVE UP HERE ###
 
-def plot_sir()
+def plot_sir(time_grid, susceptible, infectious, recovered):
+    '''
+    Plotting function for SIR model
+    '''
+    fig = plt.figure(facecolor='w')
+    ax = fig.add_subplot(111, facecolor="#dddddd", axisbelow=True)
+    
+    ax.plot(time_grid, susceptible, 'b', alpha=0.5, lw=2, label='Susceptible')
+    ax.plot(time_grid, infectious, 'r', alpha=0.5, lw=2, label='Infected')
+    ax.plot(time_grid, recovered, 'g', alpha=0.5, lw=2, label='Recovered')
+
+    ax.set_xlabel('days')
+    ax.set_ylabel('Number People')
+    ax.yaxis.set_tick_params(length=0)
+    ax.xaxis.set_tick_params(length=0)
+
+    ax.grid(b=True, which='major', c='w', lw=2, ls='-')
+
+    legend = ax.legend()
+    legend.get_frame().set_alpha(0.5)
+
+    for spine in ('top', 'right', 'bottom', 'left'):
+        ax.spines[spine].set_visible(False)
+    plt.show()
 
 
 def get_initial_susceptible(total_population, initial_infected, initial_recovered):
@@ -122,6 +146,9 @@ if __name__ == "__main__":
     susceptible, infectious, recovered = integrate_functions.T
     
     plot_sir(time_grid, susceptible, infectious, recovered)
+
+
+
 
     ### DISPLAY FIELDS ###
     print(f', total_population:{total_population}\n, days: {days}\n, initial_infected: {initial_infected}\n, initial_recovered: {initial_recovered}\n, recovery_period_in_days: {recovery_period_in_days}\n, avg_num_contacts_per_person: {avg_num_contacts_per_person}\n, proba_of_disease_transm: {proba_of_disease_transm}\n, initial_susceptible: {initial_susceptible}\n, beta: {beta}\n, mean_recov_rate: {mean_recov_rate}\n, time_grid: {time_grid.shape}')
