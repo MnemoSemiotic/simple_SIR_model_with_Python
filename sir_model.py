@@ -43,6 +43,15 @@ def deriv_infectious_wrt_time(beta, susceptible, infectious, total_population, m
     return beta * susceptible * (infectious / total_population) - (mean_recov_rate * infectious)
 
 
+def deriv_recovered_wrt_time(mean_recov_rate, infectious):
+    '''
+    assume that recovered is not again susceptible, draws from infectious
+
+    Challenge: incorporate a rate of becoming susceptible again, or reflect partial immunity
+    '''
+    return mean_recov_rate * infectious
+
+
 def derivatives_helper(initial_conditions, time_grid, total_population, beta, mean_recov_rate):
     '''
     facilitates the odeint solver from scipy
@@ -54,9 +63,8 @@ def derivatives_helper(initial_conditions, time_grid, total_population, beta, me
     susceptible, infectious, _ = initial_conditions
 
     dSdt = deriv_susceptible_wrt_time(beta, susceptible, infectious, total_population)
-
     dIdt = deriv_infectious_wrt_time(beta, susceptible, infectious, total_population, mean_recov_rate)
-
+    dRdt = deriv_recovered_wrt_time(mean_recov_rate, infectious)
 
 
 if __name__ == "__main__":
