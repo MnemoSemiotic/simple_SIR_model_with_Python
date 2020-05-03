@@ -17,6 +17,15 @@ def get_beta(avg_num_contacts_per_person, proba_of_disease_transm):
     '''
     return avg_num_contacts_per_person * proba_of_disease_transm
 
+
+def get_mean_recov_rate(recovery_period_in_days):
+    '''
+    mean recovery/mortality rate (gamma), 1 over how many
+    days it takes a person to recover
+    '''
+    return 1.0 / recovery_period_in_days
+
+
 if __name__ == "__main__":
     ### THESE ARE OUR PARAMETERS ###
 
@@ -48,10 +57,14 @@ if __name__ == "__main__":
 
 
     # transm rate from susceptible to infectious
-
-
-
     beta = get_beta(avg_num_contacts_per_person, proba_of_disease_transm)
+
+
+    # gamma, mean transmission rate from infectious to recovered
+    mean_recov_rate = get_mean_recov_rate(recovery_period_in_days)
+
+
+
 
 
 
