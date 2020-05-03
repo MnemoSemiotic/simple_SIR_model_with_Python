@@ -28,6 +28,28 @@ def get_mean_recov_rate(recovery_period_in_days):
     return 1.0 / recovery_period_in_days
 
 
+def deriv_susceptible_wrt_time(beta, susceptible, infectious, total_population):
+    '''
+    assume that susceptible will always decrease given
+    the nature of this disease transm e.g. assumed immunity
+    '''
+    return -beta * susceptible * (infectious / total_population)
+
+
+def derivatives_helper(initial_conditions, time_grid, total_population, beta, mean_recov_rate):
+    '''
+    facilitates the odeint solver from scipy
+
+    notes: time_grid param is not explicitly use
+           initial recov'd value is not explicitly used
+           from initial_conditions
+    '''
+    susceptible, infectious, _ = initial_conditions
+
+    dSdt = deriv_susceptible_wrt_time(beta, susceptible, infectious, total_population)
+
+
+
 if __name__ == "__main__":
     ### THESE ARE OUR PARAMETERS ###
 
@@ -67,7 +89,10 @@ if __name__ == "__main__":
     # each derivative is a funct of time, so we set up a numpy array for time that we'll use in calc's and plotting
     time_grid = np.linspace(0, days, days)
 
+    # Set initial conditions for our diffEQ solver
+    initial_conditions = (initial_susceptible, initial_infected, initial_recovered)
 
+    # TODO: use ode solver to integrate the SIR equations
 
 
 
