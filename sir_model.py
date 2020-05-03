@@ -97,29 +97,7 @@ def derivatives_helper(initial_conditions, time_grid, total_population, beta, me
     return dSdt, dIdt, dRdt
 
 
-if __name__ == "__main__":
-    ### THESE ARE OUR PARAMETERS ###
-
-
-
-    # Assume a "closed" population (related to S)
-    total_population = 100000
-
-
-    # Number of days in consideration
-    days = 200
-
-    initial_infected = 100
-    initial_recovered = 0
-
-    # parameter to build avg recovery rate (gamma)
-    recovery_period_in_days = 10
-
-    # params to build beta, our transmission rate from susceptible to infectious
-    avg_num_contacts_per_person = 5 # per day
-    proba_of_disease_transm = 0.04 # of acquiring the disease AND encountering a person with the disease
-
-
+def driver(total_population, days, initial_infected, recovery_period_in_days, avg_num_contacts_per_person, proba_of_disease_transm):
     ### THIS IS OUR PROCEDURE ###
     # simply the total population minus the initial infected and initial recovered
     initial_susceptible = get_initial_susceptible(total_population, initial_infected, initial_recovered)
@@ -148,9 +126,32 @@ if __name__ == "__main__":
     plot_sir(time_grid, susceptible, infectious, recovered)
 
 
+if __name__ == "__main__":
+    ### THESE ARE OUR PARAMETERS ###
 
 
-    ### DISPLAY FIELDS ###
-    print(f', total_population:{total_population}\n, days: {days}\n, initial_infected: {initial_infected}\n, initial_recovered: {initial_recovered}\n, recovery_period_in_days: {recovery_period_in_days}\n, avg_num_contacts_per_person: {avg_num_contacts_per_person}\n, proba_of_disease_transm: {proba_of_disease_transm}\n, initial_susceptible: {initial_susceptible}\n, beta: {beta}\n, mean_recov_rate: {mean_recov_rate}\n, time_grid: {time_grid.shape}')
 
-    print(integrate_functions)
+    # Assume a "closed" population (related to S)
+    total_population = 200000
+
+    # TODO: add param for population density?
+
+    # Number of days in consideration
+    days = 200
+
+    initial_infected = 100
+    initial_recovered = 0
+
+    # parameter to build avg recovery rate (gamma)
+    recovery_period_in_days = 10
+
+    # params to build beta, our transmission rate from susceptible to infectious
+    avg_num_contacts_per_person = 4 # per day
+    proba_of_disease_transm = 0.04 # of acquiring the disease AND encountering a person with the disease
+    
+    # TODO: percentage of infected who need hospitalization
+
+
+    # Run the model
+    driver(total_population, days, initial_infected, recovery_period_in_days, avg_num_contacts_per_person, proba_of_disease_transm)
+    
